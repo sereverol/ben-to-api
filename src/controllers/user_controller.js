@@ -18,8 +18,8 @@ const dataToUser = (rows) => {
     users.push({
       name: element.user_name,
       email: element.user_email,
-      direction:element.user_direction,
-      password:element.user_password,
+      direction: element.user_direction,
+      password: element.user_password,
       id: element.user_id,
     });
   });
@@ -86,7 +86,7 @@ const getUserById = async (req, res) => {
 };
 
 const createUsers = (req, res) => {
-  const { name, password, confirmPassword, email,direction } = req.body;
+  const { name, password, confirmPassword, email, direction } = req.body;
   const errors = [];
 
   if (!field.checkFields([name, password, confirmPassword, email])) {

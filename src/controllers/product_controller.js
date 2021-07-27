@@ -14,7 +14,7 @@ const dataToProduct = (rows) => {
 
   rows.forEach((element) => {
     Product.push({
-      id: element.product_ide,
+      id: element.product_id,
       name: element.product_name,
       price: element.product_price,
     });

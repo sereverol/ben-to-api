@@ -1,18 +1,20 @@
 const table = 'establishment';
 
 module.exports = {
-  createEstablishment: `INSERT INTO ${table} (establishment_name, establishment_direction) VALUES ($1, $2,3$) 
-    RETURNING product_ide`,
+  createEstablishment: `INSERT INTO ${table} (establishment_name, establishment_direction) VALUES ($1, $2) 
+    RETURNING establishment_id`,
 
-  getAllEstablishment: `SELECT * FROM ${table}`,
+  //   getAllProduct: `SELECT * FROM ${table}`,
 
-  getEstablishmentById: `SELECT * FROM ${table} WHERE establishment_id = $1`,
+  //   getProductById: `SELECT * FROM ${table} WHERE product_id = $1`,
 
-  getEstablishmentByName: `SELECT * FROM ${table} WHERE establishment_name = $1`,
+  //   getProductByEstablishmentId: `SELECT * FROM ${table} WHERE establishment_id = $1`,
 
-  updateEstablishmentNameById: `UPDATE ${table} SET establishment_name = $1 WHERE  establishment_id = $2`,
+  //   getProductByPrice: `SELECT * FROM ${table} WHERE product_price = $1`,
 
-  updateEstablishmentById: `UPDATE ${table} SET establishment_name = $1, establishment_direction = $2 WHERE establishment_id = $3`,
+  //   updateProductPriceById: `UPDATE ${table} SET product_price = $1 WHERE product_id = $2`,
 
-  deleteEstablishmentById: `DELETE FROM ${table} WHERE establishment_id = $1`,
+  //   updateProductById: `UPDATE ${table} SET product_name = $1, product_price = $2 WHERE product_id = $3`,
+
+  //   deleteProductById: `DELETE FROM ${table} WHERE product_id = $1`,
 };

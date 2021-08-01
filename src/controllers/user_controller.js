@@ -19,8 +19,9 @@ const dataToUser = (rows) => {
       name: element.user_name,
       email: element.user_email,
       direction: element.user_direction,
-      password: element.user_password,
+      user_password: element.user_password,
       id: element.user_id,
+      admin: element.user_isadmin,
     });
   });
 
@@ -47,10 +48,10 @@ const login = async (req, res) => {
 
   if (data) {
     if (data.rowCount > 0) {
-      const users = dataToUser(data.rows);
+      const user = dataToUser(data.rows);
 
-      (await bcryt.compare(password, data.rows[0].user_pas))
-        ? res.json(newReponse('Logged successfully', 'Success', users))
+      (await bcryt.compare(password, data.rows[0].user_password))
+        ? res.json(newReponse('Logged successfully', 'Success', user))
         : res.json(newReponse('Incorrect password', 'Error', {}));
     } else {
       res.json(newReponse('Email not found', 'Error', {}));

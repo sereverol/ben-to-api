@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 const dbConfig = require('../config/db');
 const dbQueriesEstablishment = require('../config/queries/establishment');
 const field = require('../utils/field');
-const auth = require('../utils/auth')
+// const auth = require('../utils/auth')
 
 const pool = new Pool(dbConfig);
 
@@ -25,39 +25,48 @@ const dataToEstablishment = (rows) => {
 };
 
 const getEstablishment = async (req, res) => {
-    const data = await pool.query(dbQueriesMenu.getMenusWithoutParentId);
+  const data = await pool.query(dbQueriesMenu.getMenusWithoutParentId);
 
-    if(data) {
-        (data.rowCount > 0)
-        ? res.json(newReponse('All Establishment', 'Success', dataToEstablishment(data.rows)))
-        : res.json(newReponse('Error searhing the establishment', 'Error', { }));
-    
-    } else {
-        res.json(newReponse('Without Establishment', 'Success', { }));
-    }
-}
+  if (data) {
+    data.rowCount > 0
+      ? res.json(
+          newReponse(
+            'All Establishment',
+            'Success',
+            dataToEstablishment(data.rows)
+          )
+        )
+      : res.json(newReponse('Error searhing the establishment', 'Error', {}));
+  } else {
+    res.json(newReponse('Without Establishment', 'Success', {}));
+  }
+};
 
 const getEstablishmentById = async (req, res) => {
-    const { userId,  establishmentId } = req.params;
+  const { userId, establishmentId } = req.params;
 
-    if(await auth.AuthAdmin(userId)) {
-        const data = await pool.query(dbQueriesEstablishment.getEstablishmentById, [ establishmentId]);    
+  if (await auth.AuthAdmin(userId)) {
+    const data = await pool.query(dbQueriesEstablishment.getEstablishmentById, [
+      establishmentId,
+    ]);
 
-        if(data) {  
-            (data.rowCount > 0) 
-            ? res.json(newReponse('Establishmen found', 'Success', dataToEstablishment(data.rows)))
-            : res.json(newReponse('Establishmen not found', 'Error', { }));
-    
-        } else {
-            res.json(newReponse('Error searching Establishmen with id', 'Error', { }));
-        }
-
+    if (data) {
+      data.rowCount > 0
+        ? res.json(
+            newReponse(
+              'Establishmen found',
+              'Success',
+              dataToEstablishment(data.rows)
+            )
+          )
+        : res.json(newReponse('Establishmen not found', 'Error', {}));
     } else {
-        res.json(newReponse('User not admin', 'Error', { }));
+      res.json(newReponse('Error searching Establishmen with id', 'Error', {}));
     }
-}
-
-
+  } else {
+    res.json(newReponse('User not admin', 'Error', {}));
+  }
+};
 
 const createEstablishment = async (req, res) => {
   const { name, direction } = req.body;
@@ -73,7 +82,6 @@ const createEstablishment = async (req, res) => {
     const data = await pool.query(dbQueriesEstablishment.createEstablishment, [
       direction,
       name,
-      
     ]);
 
     data
@@ -100,31 +108,35 @@ const updateEstablishmentById = async (req, res) => {
     let data;
 
     switch (type) {
-        case 'name':
-        data = await pool.query(dbQueriesEstablishment.updateEstablishmentNameById, [
-          name,
-          id,
-        ]);
+      case 'name':
+        data = await pool.query(
+          dbQueriesEstablishment.updateEstablishmentNameById,
+          [name, id]
+        );
         break;
 
       default:
-        data = await pool.query(dbQueriesEstablishment.updateEstablishmentById, [
-          direction,
-          name,
-          id,
-        ]);
+        data = await pool.query(
+          dbQueriesEstablishment.updateEstablishmentById,
+          [direction, name, id]
+        );
         break;
     }
 
     data
-      ? res.json(newReponse('Establishment updated successfully', 'Success', {}))
+      ? res.json(
+          newReponse('Establishment updated successfully', 'Success', {})
+        )
       : res.json(newReponse('Error update Establishment', 'Error', {}));
   }
 };
 
 const deleteEstablishmentById = async (req, res) => {
   const { establishmentId } = req.params;
-  const data = await pool.query(dbQueriesEstablishment.deleteEstablishmentById, [establishmentId]);
+  const data = await pool.query(
+    dbQueriesEstablishment.deleteEstablishmentById,
+    [establishmentId]
+  );
 
   data
     ? res.json(newReponse('Establishment deleted successfully', 'Success', {}))

@@ -25,11 +25,15 @@ const dataToProduct = (rows) => {
 
 const getProductByEstablishmentId = async (req, res) => {
   const { establishmentId } = req.params;
-  const data = await pool.query(dbQueriesProduct.getProductByEstablishmentId, [establishmentId]);
+  const data = await pool.query(dbQueriesProduct.getProductByEstablishmentId, [
+    establishmentId,
+  ]);
 
   if (data) {
     data.rowCount > 0
-      ? res.json(newReponse('Product found', 'Success', dataToProduct(data.rows)))
+      ? res.json(
+          newReponse('Product found', 'Success', dataToProduct(data.rows))
+        )
       : res.json(newReponse('Establishment without Prdocut', 'Success', []));
   } else {
     res.json(newReponse('Error searhing Prodcut', 'Error', {}));
@@ -48,8 +52,8 @@ const createProduct = async (req, res) => {
     res.json(newReponse('Errors detected', 'Fail', { errors }));
   } else {
     const data = await pool.query(dbQueriesProduct.createProduct, [
-      price,
       name,
+      price,
       establishmentId,
     ]);
 
@@ -77,7 +81,7 @@ const updateProductById = async (req, res) => {
     let data;
 
     switch (type) {
-        case 'price':
+      case 'price':
         data = await pool.query(dbQueriesProduct.updateProductPriceById, [
           price,
           id,
@@ -101,7 +105,9 @@ const updateProductById = async (req, res) => {
 
 const deleteProductById = async (req, res) => {
   const { productId } = req.params;
-  const data = await pool.query(dbQueriesProduct.deleteProductById, [productId]);
+  const data = await pool.query(dbQueriesProduct.deleteProductById, [
+    productId,
+  ]);
 
   data
     ? res.json(newReponse('Product deleted successfully', 'Success', {}))

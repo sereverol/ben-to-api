@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const establishment = require('../controllers/establishment_controller');
 
-router.get('/establishment', establishment.getEstablishment);
+router.get('/', establishment.getEstablishment);
 
-router.get(
-  '/establishement/establishmentId',
-  establishment.getEstablishmentById
-);
+// router.get(
+//   '/establishement/establishmentId',
+//   establishment.getEstablishmentById
+// );
 
 router.post('/', establishment.createEstablishment);
 

@@ -4,6 +4,8 @@ module.exports = {
   createEstablishment: `INSERT INTO ${table} (establishment_name, establishment_direction, establishment_description, establishment_budget, establishment_imageurl) VALUES ($1, $2, $3, $4, $5) 
     RETURNING establishment_id, establishment_name, establishment_imageurl`,
 
+  getEstablishment: `SELECT * FROM ${table}`,
+
   //   getAllProduct: `SELECT * FROM ${table}`,
 
   //   getProductById: `SELECT * FROM ${table} WHERE product_id = $1`,

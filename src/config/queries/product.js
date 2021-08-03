@@ -8,7 +8,7 @@ module.exports = {
 
   // getProductById: `SELECT * FROM ${table} WHERE product_id = $1`,
 
-  // getProductByEstablishmentId: `SELECT * FROM ${table} WHERE establishment_id = $1`,
+  getProductByEstablishmentId: `SELECT * FROM ${table} WHERE establishment_id = $1`,
 
   // getProductByPrice: `SELECT * FROM ${table} WHERE product_price = $1`,
 

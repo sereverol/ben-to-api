@@ -19,53 +19,48 @@ const dataToEstablishment = (rows) => {
       name: element.establishment_name,
       direction: element.establishment_direction,
       description: element.establishment_description,
+      budget: element.establishment_budget,
+      imageurl: element.establishment_imageurl,
     });
   });
 
   return Establishment;
 };
 
+// const getEstablishment = async (req, res) => {
+//   const data = await pool.query(dbQueriesMenu.getMenusWithoutParentId);
+
+//   if (data) {
+//     data.rowCount > 0
+//       ? res.json(
+//           newReponse(
+//             'All Establishment',
+//             'Success',
+//             dataToEstablishment(data.rows)
+//           )
+//         )
+//       : res.json(newReponse('Error searhing the establishment', 'Error', {}));
+//   } else {
+//     res.json(newReponse('Without Establishment', 'Success', {}));
+//   }
+// };
+
 const getEstablishment = async (req, res) => {
-  const data = await pool.query(dbQueriesMenu.getMenusWithoutParentId);
+  // res.send('so loud');
+  const data = await pool.query(dbQueriesEstablishment.getEstablishment);
 
   if (data) {
     data.rowCount > 0
       ? res.json(
           newReponse(
-            'All Establishment',
+            'Establishments found',
             'Success',
             dataToEstablishment(data.rows)
           )
         )
-      : res.json(newReponse('Error searhing the establishment', 'Error', {}));
+      : res.json(newReponse('Establishmen not found', 'Error', {}));
   } else {
-    res.json(newReponse('Without Establishment', 'Success', {}));
-  }
-};
-
-const getEstablishmentById = async (req, res) => {
-  const { userId, establishmentId } = req.params;
-
-  if (await auth.AuthAdmin(userId)) {
-    const data = await pool.query(dbQueriesEstablishment.getEstablishmentById, [
-      establishmentId,
-    ]);
-
-    if (data) {
-      data.rowCount > 0
-        ? res.json(
-            newReponse(
-              'Establishmen found',
-              'Success',
-              dataToEstablishment(data.rows)
-            )
-          )
-        : res.json(newReponse('Establishmen not found', 'Error', {}));
-    } else {
-      res.json(newReponse('Error searching Establishmen with id', 'Error', {}));
-    }
-  } else {
-    res.json(newReponse('User not admin', 'Error', {}));
+    res.json(newReponse('Error searching Establishmen with id', 'Error', {}));
   }
 };
 
@@ -150,7 +145,7 @@ const deleteEstablishmentById = async (req, res) => {
 module.exports = {
   createEstablishment,
   getEstablishment,
-  getEstablishmentById,
+  // getEstablishmentById,
   updateEstablishmentById,
   deleteEstablishmentById,
 };

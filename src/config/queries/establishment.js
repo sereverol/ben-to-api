@@ -1,8 +1,8 @@
 const table = 'establishment';
 
 module.exports = {
-  createEstablishment: `INSERT INTO ${table} (establishment_name, establishment_direction) VALUES ($1, $2) 
-    RETURNING establishment_id`,
+  createEstablishment: `INSERT INTO ${table} (establishment_name, establishment_direction, establishment_description, establishment_budget, establishment_imageurl) VALUES ($1, $2, $3, $4, $5) 
+    RETURNING establishment_id, establishment_name, establishment_imageurl`,
 
   //   getAllProduct: `SELECT * FROM ${table}`,
 

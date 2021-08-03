@@ -17,6 +17,8 @@ const dataToProduct = (rows) => {
       id: element.product_id,
       name: element.product_name,
       price: element.product_price,
+      establishmentId: element.establishment_id,
+      description: element.product_description,
     });
   });
 
@@ -41,10 +43,10 @@ const getProductByEstablishmentId = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { name, establishmentId, price } = req.body;
+  const { name, establishmentId, price, description, imageurl } = req.body;
   const errors = [];
 
-  if (!field.checkFields([name, establishmentId, price])) {
+  if (!field.checkFields([name, establishmentId, price, description])) {
     errors.push({ text: 'Empty fields' });
   }
 
@@ -54,7 +56,9 @@ const createProduct = async (req, res) => {
     const data = await pool.query(dbQueriesProduct.createProduct, [
       name,
       price,
+      description,
       establishmentId,
+      imageurl,
     ]);
 
     data

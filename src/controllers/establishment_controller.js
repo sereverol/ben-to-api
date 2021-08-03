@@ -18,6 +18,7 @@ const dataToEstablishment = (rows) => {
       id: element.establishment_id,
       name: element.establishment_name,
       direction: element.establishment_direction,
+      description: element.establishment_description,
     });
   });
 
@@ -69,7 +70,7 @@ const getEstablishmentById = async (req, res) => {
 };
 
 const createEstablishment = async (req, res) => {
-  const { name, direction } = req.body;
+  const { name, direction, description, budget, imageurl } = req.body;
   const errors = [];
 
   if (!field.checkFields([name, direction])) {
@@ -80,14 +81,17 @@ const createEstablishment = async (req, res) => {
     res.json(newReponse('Errors detected', 'Fail', { errors }));
   } else {
     const data = await pool.query(dbQueriesEstablishment.createEstablishment, [
-      direction,
       name,
+      direction,
+      description,
+      budget,
+      imageurl,
     ]);
 
     data
       ? res.json(
           newReponse('Establishment created successfully', 'Success', {
-            id: data.rows[0].establishment_id,
+            id: data.rows[0],
           })
         )
       : res.json(newReponse('Error create Establishment', 'Error', {}));
